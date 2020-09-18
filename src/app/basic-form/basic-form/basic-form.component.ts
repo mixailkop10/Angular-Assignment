@@ -8,7 +8,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class BasicFormComponent implements OnInit {
   form: FormGroup;
-  programmingLanguages = ['TS', 'JS', 'C#'];
+  programmingLanguages = ['TS', 'JS', 'C#', 'Java', 'C++', 'Python'];
 
   constructor() { }
 
@@ -16,8 +16,26 @@ export class BasicFormComponent implements OnInit {
     this.form = new FormGroup({
       firstName: new FormControl(null, Validators.required),
       lastName: new FormControl(null, Validators.required),
+      isExprerienced: new FormControl(null, Validators.required),
+      angular: new FormControl(null, Validators.required),
+      favouriteLanguage: new FormControl(null, Validators.required),
+      jsversion: new FormControl(null, Validators.required),
     });
 
+    this.form
+    .get('favouriteLanguage')
+    .valueChanges
+    .subscribe(value => {
+
+      const jsVersionFormControl = this.form.get('jsversion');
+
+      if (value === 'JS') {
+        jsVersionFormControl.setValidators(Validators.required);
+      } else {
+        jsVersionFormControl.clearValidators();
+      }
+      jsVersionFormControl.updateValueAndValidity();
+    });
   }
 
 }
